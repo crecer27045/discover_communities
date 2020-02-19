@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "NoirPro";
+    src: url("/fonts/NoirPro-Bold.eot");
+    src: local("☞Noir Pro Bold"), local("NoirPro-Bold"),
+      url("/fonts/NoirPro-Bold.eot?#iefix") format("embedded-opentype"),
+      url("/fonts/NoirPro-Bold.woff2") format("woff2"),
+      url("/fonts/NoirPro-Bold.woff") format("woff"),
+      url("/fonts/NoirPro-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "NoirPro";
+    src: url("/fonts/NoirPro-Regular.eot");
+    src: local("☞Noir Pro"), local("NoirPro-Regular"),
+      url("/fonts/NoirPro-Regular.eot?#iefix") format("embedded-opentype"),
+      url("/fonts/NoirPro-Regular.woff2") format("woff2"),
+      url("/fonts/NoirPro-Regular.woff") format("woff"),
+      url("/fonts/NoirPro-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
