@@ -122,7 +122,7 @@ export default {
       transform: rotate(180deg) translateY(2px);
     }
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 576px) {
     padding: 20px;
   }
 }

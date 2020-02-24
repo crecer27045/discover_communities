@@ -96,7 +96,11 @@
           <template slot="next"><span class="next">next</span></template>
         </carousel>-->
         <slick ref="slick" :options="slickOptions" v-if="Creators.length">
-          <div class="main__slide" v-for="Creator in Creators" v-bind:key="Creator.id">
+          <div
+            class="main__slide"
+            v-for="Creator in Creators"
+            v-bind:key="Creator.id"
+          >
             <!-- <div class="main__slide"> -->
             <img :src="Creator.Image" alt class="main__slide-img" />
             <div class="main__slide-title">{{ Creator.Title }}</div>
@@ -133,20 +137,21 @@ export default {
         infinite: false,
         slidesToShow: 4,
         swipeToSlide: true,
+        // variableWidth: true,
         nextArrow:
           '<button type="button" class="slick-next"><img src="/img/svg/Arrow-slider.svg"></button>',
         prevArrow:
           '<button type="button" class="slick-prev"><img src="/img/svg/Arrow-slider.svg"></button>',
         responsive: [
           {
-            breakpoint: 1024,
+            breakpoint: 1120,
             settings: {
               slidesToShow: 3,
               slidesToScroll: 3
             }
           },
           {
-            breakpoint: 600,
+            breakpoint: 860,
             settings: {
               slidesToShow: 2,
               slidesToScroll: 2,
@@ -156,7 +161,7 @@ export default {
             }
           },
           {
-            breakpoint: 480,
+            breakpoint: 580,
             settings: {
               slidesToShow: 1,
               slidesToScroll: 1,
@@ -218,12 +223,12 @@ export default {
 
 <style lang="scss">
 .main__content {
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
 .main__header {
   max-width: 1160px;
   margin: 0 auto 40px;
-  padding: 0 20px;
+  // padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -290,14 +295,23 @@ export default {
     }
   }
 }
+.main {
+  padding: 0 60px;
+  @media screen and (max-width: 576px) {
+    padding: 0 20px;
+  }
+}
 
 .main__slider {
   max-width: 1184px;
   margin: 0 auto;
-  padding: 0 20px;
+  // padding: 0 20px;
 }
 .slick-slider {
   position: relative;
+  @media screen and (max-width: 1300px) {
+    margin: 0 -10px;
+  }
 }
 .slick-arrow {
   background: var(--color-red);
@@ -307,7 +321,16 @@ export default {
   line-height: 70px;
   z-index: 1;
   transition: 0.3s;
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 700px) and (max-width: 1399px) {
+    position: absolute;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    left: 10px;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+  }
+  @media screen and (min-width: 1400px) {
     position: absolute;
     top: 50%;
     transform: translate(-100%, -50%);
@@ -321,7 +344,12 @@ export default {
   transform: rotate(180deg);
 }
 .slick-next {
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 700px) {
+    left: initial;
+    right: 10px;
+    transform: translate(100%, -50%);
+  }
+  @media screen and (min-width: 1400px) {
     left: initial;
     right: -45px;
     transform: translate(100%, -50%);
@@ -332,16 +360,14 @@ export default {
 }
 .slick-slide {
   transition: 0.3s;
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
+  margin: 0 10px;
   &:not(.slick-active) {
     opacity: 0.6;
   }
 }
 .main__slide {
   position: relative;
-  max-width: 256px;
+  // max-width: 256px;
   padding: 20px;
   width: 100%;
   height: 430px;
@@ -349,6 +375,11 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   margin: 0 auto;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  @media screen and (max-width: 860px) {
+    max-width: 256px;
+  }
   &:before {
     content: "";
     position: absolute;
@@ -360,13 +391,20 @@ export default {
     background: linear-gradient(0deg, #171717 20.35%, rgba(23, 23, 23, 0) 100%);
     transition: background 0.3s;
     background-size: 1px 130%;
-    border-radius: var(--border-radius);
   }
   .main__slide-img {
+    // position: absolute;
+    // top: 0;
+    // left: calc(50% - 256px / 2);
+    // z-index: -2;
     position: absolute;
     top: 0;
-    left: calc(50% - 256px / 2);
+    left: 0;
     z-index: -2;
+    object-fit: cover;
+    object-position: top;
+    height: 100%;
+    width: 100%;
   }
   .main__slide-title {
     color: var(--color-white);
