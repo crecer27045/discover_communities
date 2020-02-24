@@ -1,28 +1,25 @@
 <template>
   <div id="nav">
-    <a href="/" class="logo"><img src="/img/svg/logo.svg" alt=""/></a>
+    <a href="/" class="logo">
+      <img src="/img/svg/logo.svg" alt />
+    </a>
     <div class="profile" :class="{ active: profileActive }">
       <div class="profile__container">
-        <img src="/img/profile/test_user.png" alt="" class="profile__img" />
-        <div class="profile__info">
+        <img src="/img/profile/test_user.png" alt class="profile__img" />
+        <div v-if="windowWidth >= 576" class="profile__info">
           <div class="hello">Hello</div>
           <div class="profile__name">Username</div>
         </div>
         <div
+          v-if="windowWidth >= 576"
           class="profile__dropdown_button"
           @click="ProfileDropdown"
           :class="{ active: profileActive }"
         >
-          <img src="/img/svg/arrow.svg" alt="" class="profile__dropdown_icon" />
+          <img src="/img/svg/arrow.svg" alt class="profile__dropdown_icon" />
         </div>
       </div>
-      <div class="profile__dropdown" v-if="profileActive">
-        <a href="#" class="profile__dropdown_link">Manage profile</a>
-        <a href="#" class="profile__dropdown_link">View profile</a>
-        <a href="#" class="profile__dropdown_link">Edit pending account</a>
-        <a href="#" class="profile__dropdown_link">Dark mode</a>
-        <a href="#" class="profile__dropdown_link">Log out</a>
-      </div>
+      <div class="profile__dropdown" v-if="profileActive"></div>
     </div>
   </div>
 </template>
@@ -32,12 +29,24 @@ export default {
   name: "Navigation",
   data() {
     return {
-      profileActive: false
+      profileActive: false,
+      windowWidth: null
     };
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowWidth);
+
+      //Init
+      this.getWindowWidth();
+    });
   },
   methods: {
     ProfileDropdown() {
       this.profileActive = !this.profileActive;
+    },
+    getWindowWidth() {
+      this.windowWidth = document.documentElement.clientWidth;
     }
   }
 };
@@ -64,6 +73,12 @@ export default {
     width: 100%;
     border-radius: var(--border-radius);
     height: max-content;
+    transition: 0.3s;
+    @media screen and (max-width: 576px) {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0;
+    }
     &.active {
       box-shadow: 0px 5px 10px rgba(88, 19, 27, 0.08);
     }
@@ -74,6 +89,9 @@ export default {
     grid-template-columns: 50px auto 30px;
     grid-gap: 0 10px;
     align-items: center;
+    @media screen and (max-width: 576px) {
+      display: block;
+    }
   }
   .profile__img {
     border-radius: 100%;
@@ -103,10 +121,6 @@ export default {
     &.active .profile__dropdown_icon {
       transform: rotate(180deg) translateY(2px);
     }
-  }
-  .profile__dropdown {
-    display: flex;
-    flex-direction: column;
   }
   @media screen and (max-width: 600px) {
     padding: 20px;

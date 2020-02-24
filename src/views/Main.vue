@@ -1,11 +1,22 @@
 <template>
   <div class="main">
     <div class="main__header">
-      <h1 class="title">Featured <span>Creators</span></h1>
+      <h1 class="title">
+        Featured
+        <span>Creators</span>
+      </h1>
+      <div v-if="windowWidth <= 576" class="slider_arrows__mobile">
+        <button type="button" class="slick-prev slick-arrow">
+          <img src="/img/svg/Arrow-slider.svg" />
+        </button>
+        <button type="button" class="slick-next slick-arrow">
+          <img src="/img/svg/Arrow-slider.svg" />
+        </button>
+      </div>
       <div class="search__wrap">
         <input class="search__input" type="text" placeholder="Search" />
         <button class="search__btn" type="text">
-          <img src="/img/svg/search.svg" alt="" />
+          <img src="/img/svg/search.svg" alt />
         </button>
       </div>
     </div>
@@ -17,7 +28,7 @@
       <img src="https://placeimg.com/200/200/any?3" />
 
       <img src="https://placeimg.com/200/200/any?4" />
-    </carousel> -->
+    </carousel>-->
     <div class="main__content">
       <div class="main__slider">
         <!-- <carousel :dots="false">
@@ -83,15 +94,11 @@
             <button class="main__slide-button">Join community</button>
           </div>
           <template slot="next"><span class="next">next</span></template>
-        </carousel> -->
+        </carousel>-->
         <slick ref="slick" :options="slickOptions" v-if="Creators.length">
-          <div
-            class="main__slide"
-            v-for="Creator in Creators"
-            v-bind:key="Creator.id"
-          >
+          <div class="main__slide" v-for="Creator in Creators" v-bind:key="Creator.id">
             <!-- <div class="main__slide"> -->
-            <img :src="Creator.Image" alt="" class="main__slide-img" />
+            <img :src="Creator.Image" alt class="main__slide-img" />
             <div class="main__slide-title">{{ Creator.Title }}</div>
             <div class="main__slide-text">{{ Creator.Text }}</div>
             <button class="main__slide-button">Join community</button>
@@ -135,9 +142,7 @@ export default {
             breakpoint: 1024,
             settings: {
               slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-              dots: true
+              slidesToScroll: 3
             }
           },
           {
@@ -145,7 +150,9 @@ export default {
             settings: {
               slidesToShow: 2,
               slidesToScroll: 2,
-              variableWidth: true
+              variableWidth: true,
+              nextArrow: document.getElementsByClassName("slick-next"),
+              prevArrow: document.getElementsByClassName("slick-prev")
             }
           },
           {
@@ -154,7 +161,9 @@ export default {
               slidesToShow: 1,
               slidesToScroll: 1,
               variableWidth: true,
-              swipeToSlide: true
+              swipeToSlide: true,
+              nextArrow: document.getElementsByClassName("slick-next"),
+              prevArrow: document.getElementsByClassName("slick-prev")
             }
           }
           // You can unslick at a given breakpoint now by adding:
@@ -163,6 +172,7 @@ export default {
         ]
         // Any other options that can be got from plugin documentation
       },
+      windowWidth: null,
       Creators: ""
     };
   },
@@ -174,6 +184,12 @@ export default {
       // this.$refs.slick.destroy();
       // this.$refs.slick.create(this.slickOptions);
       // this.$refs.slickone.reSlick();
+    });
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowWidth);
+
+      //Init
+      this.getWindowWidth();
     });
     // this.$store
     //   .dispatch(CREATORS_REQUEST)
@@ -192,60 +208,10 @@ export default {
     // this.initOwlCarousel();
   },
   methods: {
-    // loadJquery() {
-    //   let THIS = this;
-    //   if (!document.getElementById("jquery")) {
-    //     let script = document.createElement("script");
-    //     script.type = "text/javascript";
-    //     script.src =
-    //       "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js";
-    //     script.id = "jquery";
-    //     document.getElementsByTagName("head")[0].appendChild(script);
-    //     script.onload = function() {
-    //       THIS.initOwlCarousel();
-    //     };
-    //   } else {
-    //     this.initOwlCarousel();
-    //   }
-    // },
-    // loadOwlCarousel() {
-    //   let THIS = this;
-    //   if (!document.getElementById("owl-carousel")) {
-    //     let script = document.createElement("script");
-    //     script.type = "text/javascript";
-    //     script.src =
-    //       "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js";
-    //     script.id = "owl-carousel";
-    //     document.getElementsByTagName("head")[0].appendChild(script);
-    //     script.onload = function() {
-    //       THIS.initOwlCarousel();
-    //     };
-    //   } else {
-    //     this.initOwlCarousel();
-    //   }
-    // },
-    // initOwlCarousel() {
-    //   $(document).ready(function() {
-    //     console.log("ready!");
-    //     // $(".owl-carousel").owlCarousel({
-    //     //   loop: true,
-    //     //   margin: 10,
-    //     //   nav: true,
-    //     //   responsive: {
-    //     //     0: {
-    //     //       items: 1
-    //     //     },
-    //     //     600: {
-    //     //       items: 3
-    //     //     },
-    //     //     1000: {
-    //     //       items: 4
-    //     //     }
-    //     //   }
-    //     // });
-    //   });
-    //   // eslint-disable-next-line no-undef
-    // }
+    getWindowWidth() {
+      this.windowWidth = document.documentElement.clientWidth;
+      console.log(this.windowWidth);
+    }
   }
 };
 </script>
@@ -261,18 +227,37 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 576px) {
+    flex-wrap: wrap;
+  }
   .title {
     font-weight: bold;
     font-size: 48px;
     line-height: 120%;
+    @media screen and (max-width: 576px) {
+      font-size: 36px;
+      max-width: 50%;
+    }
     span {
       color: var(--color-red);
     }
   }
+  .slider_arrows__mobile button:not(:last-child) {
+    margin-right: 10px;
+  }
+  // @media (max-width: 576px;) {
+  //   .title {
+  //     font-size: 36px;
+  //   }
+  // }
   .search__wrap {
     position: relative;
     max-width: 260px;
     width: 100%;
+    @media screen and (max-width: 576px) {
+      max-width: 100%;
+      margin-top: 20px;
+    }
     input {
       background: var(--color-rose-light);
       width: 100%;
@@ -281,6 +266,11 @@ export default {
       font-size: 14px;
       line-height: 17px;
       padding: 10px 10px 10px 16px;
+      @media screen and (max-width: 576px) {
+        font-size: 18px;
+        line-height: 21px;
+        height: 57px;
+      }
       // &:placeholder {
       //   color: var(--color-violet);
       //   color: #ffffff;
@@ -294,6 +284,9 @@ export default {
       top: 50%;
       right: 0;
       transform: translateY(-50%);
+      @media screen and (max-width: 576px) {
+        right: 10px;
+      }
     }
   }
 }
@@ -312,12 +305,14 @@ export default {
   width: 70px;
   border-radius: 100%;
   line-height: 70px;
-  position: absolute;
   z-index: 1;
-  top: 50%;
-  transform: translate(-100%, -50%);
-  left: -45px;
   transition: 0.3s;
+  @media screen and (min-width: 992px) {
+    position: absolute;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    left: -45px;
+  }
   &.slick-disabled {
     opacity: 0.2;
   }
@@ -326,9 +321,11 @@ export default {
   transform: rotate(180deg);
 }
 .slick-next {
-  left: initial;
-  right: -45px;
-  transform: translate(100%, -50%);
+  @media screen and (min-width: 992px) {
+    left: initial;
+    right: -45px;
+    transform: translate(100%, -50%);
+  }
 }
 .slick-track {
   display: flex;
@@ -394,22 +391,36 @@ export default {
     font-weight: bold;
     border-radius: var(--border-radius);
     transition: 0.3s;
+    font-size: 16px;
+    line-height: 130%;
     &:hover {
       background: transparent;
       color: var(--color-red);
       border: 1px solid var(--color-red);
     }
   }
-  &:hover {
-    .main__slide-title {
-      opacity: 0;
-    }
-    .main__slide-text {
-      max-height: 100%;
-      transition: max-height 0.25s ease-in;
-    }
+  // &:hover {
+  //   .main__slide-title {
+  //     opacity: 0;
+  //   }
+  //   .main__slide-text {
+  //     max-height: 100%;
+  //     transition: max-height 0.25s ease-in;
+  //   }
+  // }
+  // &:hover:before {
+  //   background-position: 220px;
+  // }
+}
+.slick-active .main__slide:hover {
+  .main__slide-title {
+    opacity: 0;
   }
-  &:hover:before {
+  .main__slide-text {
+    max-height: 100%;
+    transition: max-height 0.25s ease-in;
+  }
+  &:before {
     background-position: 220px;
   }
 }

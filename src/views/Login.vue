@@ -1,9 +1,7 @@
 <template>
-  <div id="login" class="">
+  <div id="login" class>
     <div class="login__wrap">
-      <div class="login__title">
-        Log In
-      </div>
+      <div class="login__title">Log In</div>
 
       <div class="login__form-wrap">
         <div class="login__form-input-wrap">
@@ -26,12 +24,14 @@
       <div class="login__soc_login">
         <div class="text">Or Log In with</div>
         <div class="buttons-wrap">
-          <a href="#" class="link facebook"
-            ><img src="/img/svg/facebook.svg" alt="" /><span>Facebook</span></a
-          >
-          <a href="#" class="link google"
-            ><img src="/img/svg/google.svg" alt="" /><span>Google</span></a
-          >
+          <a href="#" class="link facebook">
+            <img src="/img/svg/facebook.svg" alt />
+            <span>Facebook</span>
+          </a>
+          <a href="#" class="link google">
+            <img src="/img/svg/google.svg" alt />
+            <span>Google</span>
+          </a>
         </div>
       </div>
       <!-- <login /> -->
@@ -102,6 +102,10 @@ export default {
     width: 100%;
     box-shadow: 0px 3px 10px rgba(88, 19, 27, 0.1);
     border-radius: var(--border-radius);
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 0px 3px 13px rgba(88, 19, 27, 0.2);
+    }
   }
   // input:focus + .placehold,
   // input:valid + .placehold,
@@ -127,6 +131,9 @@ export default {
     color: var(--color-violet);
     transition: var(--transition);
   }
+  a:hover {
+    color: lighten(#e73348, 10%);
+  }
 }
 .login__forgot-wrap {
   font-size: 18px;
@@ -145,6 +152,11 @@ export default {
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 40px;
+  transition: 0.3s;
+  &:hover {
+    background: darken(#e73348, 10%);
+    box-shadow: 0px 3px 13px rgba(154, 13, 30, 0.2);
+  }
 }
 .login__soc_login {
   .text {
@@ -165,6 +177,9 @@ export default {
       align-items: center;
       justify-content: center;
       border-radius: var(--border-radius);
+      &:first-child {
+        margin-right: 20px;
+      }
     }
     img {
       margin-right: 10px;
