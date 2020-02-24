@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import Login from "./modules/login";
 import Session from "./modules/session";
+import Creators from "./modules/creators";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     Login,
-    Session
+    Session,
+    Creators
   }
 });
