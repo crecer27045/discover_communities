@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-    <div class="footer-left">
+    <div v-if="authStatus" class="footer-left">
       <a href="#">Policy & Terms</a>
       <a href="#">TL;DR</a>
       <a href="#">Privacy</a>
@@ -13,7 +13,17 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  data() {
+    return {
+      // authStatus: this.$store.getters.IS_AUTHENTICATED
+    };
+  },
+  computed: {
+    authStatus() {
+      return this.$store.getters.IS_AUTHENTICATED;
+    }
+  }
 };
 </script>
 
@@ -23,6 +33,9 @@ export default {
   justify-content: space-between;
   padding: 30px 60px;
   margin-top: auto;
+  max-width: 1440px;
+  margin: auto auto 0;
+  width: 100%;
   // @media screen and (max-width: 576px) {
 
   // }
@@ -36,6 +49,11 @@ export default {
       &:not(:last-child) {
         margin-right: 20px;
       }
+    }
+  }
+  .footer-right {
+    @media screen and (min-width: 576px) {
+      margin-left: auto;
     }
   }
   .copy {

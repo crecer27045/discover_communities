@@ -1,9 +1,13 @@
 * {
-    font-family: NoirPro, Helvetica, Arial, sans-serif;
-    line-height: 136%;
-    box-sizing: border-box;
-    color: var(--color-text);
+  font-family: NoirPro, Helvetica, Arial, sans-serif;
+  line-height: 136%;
+  box-sizing: border-box;
+  color: var(--color-text);
 }
 a {
-    color: var(--color-red);
+  color: var(--color-red);
+}
+button,
+input {
+  -webkit-tap-highlight-color: transparent;
 }

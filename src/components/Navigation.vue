@@ -3,7 +3,7 @@
     <a href="/" class="logo">
       <img src="/img/svg/logo.svg" alt />
     </a>
-    <div class="profile" :class="{ active: profileActive }">
+    <div v-if="authStatus" class="profile" :class="{ active: profileActive }">
       <div class="profile__container">
         <img src="/img/profile/test_user.png" alt class="profile__img" />
         <div v-if="windowWidth >= 576" class="profile__info">
@@ -30,7 +30,8 @@ export default {
   data() {
     return {
       profileActive: false,
-      windowWidth: null
+      windowWidth: null,
+      authStatus: this.$store.getters.IS_AUTHENTICATED
     };
   },
   mounted() {
@@ -41,6 +42,11 @@ export default {
       this.getWindowWidth();
     });
   },
+  // computed: {
+  //   userLogin() {
+  //     return this.$store.getters.IS_AUTHENTICATED
+  //   }
+  // },
   methods: {
     ProfileDropdown() {
       this.profileActive = !this.profileActive;
@@ -59,6 +65,9 @@ export default {
   align-items: center;
   justify-content: space-between;
   height: 150px;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
 
   a {
     font-weight: bold;
@@ -74,6 +83,8 @@ export default {
     border-radius: var(--border-radius);
     height: max-content;
     transition: 0.3s;
+    position: relative;
+    right: -10px;
     @media screen and (max-width: 576px) {
       display: flex;
       justify-content: flex-end;

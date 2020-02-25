@@ -13,7 +13,7 @@
           <img src="/img/svg/Arrow-slider.svg" />
         </button>
       </div>
-      <div class="search__wrap">
+      <div class="search__wrap" @click="CreatorSlideActive = !CreatorSlideActive">
         <input class="search__input" type="text" placeholder="Search" />
         <button class="search__btn" type="text">
           <img src="/img/svg/search.svg" alt />
@@ -100,13 +100,20 @@
             class="main__slide"
             v-for="Creator in Creators"
             v-bind:key="Creator.id"
+            :class="{ custom: Creator.CustomSlide }"
           >
-            <!-- <div class="main__slide"> -->
-            <img :src="Creator.Image" alt class="main__slide-img" />
-            <div class="main__slide-title">{{ Creator.Title }}</div>
-            <div class="main__slide-text">{{ Creator.Text }}</div>
-            <button class="main__slide-button">Join community</button>
-            <!-- </div> -->
+            <template v-if="!Creator.CustomSlide">
+              <img v-if="Creator.Image" :src="Creator.Image" alt class="main__slide-img" />
+              <div class="main__slide-title">{{ Creator.Title }}</div>
+              <div class="main__slide-text">{{ Creator.Text }}</div>
+              <button class="main__slide-button">Join community</button>
+            </template>
+            <template v-else>
+              <div class="main__slide_bg_red"></div>
+              <div class="main__slide-title">{{ Creator.Title }}</div>
+              <div class="main__slide-text">{{ Creator.Text }}</div>
+              <button class="main__slide-button custom">Create</button>
+            </template>
           </div>
         </slick>
       </div>
@@ -155,9 +162,9 @@ export default {
             settings: {
               slidesToShow: 2,
               slidesToScroll: 2,
-              variableWidth: true,
-              nextArrow: document.getElementsByClassName("slick-next"),
-              prevArrow: document.getElementsByClassName("slick-prev")
+              variableWidth: true
+              // nextArrow: document.getElementsByClassName("slick-next"),
+              // prevArrow: document.getElementsByClassName("slick-prev")
             }
           },
           {
@@ -178,14 +185,15 @@ export default {
         // Any other options that can be got from plugin documentation
       },
       windowWidth: null,
-      Creators: ""
+      Creators: "",
+      CreatorSlideActive: false
     };
   },
   mounted() {
     this.$store.dispatch(CREATORS_REQUEST).then(() => {
-      console.log("asd 2");
       this.Creators = this.$store.state.Creators.Creators;
       console.log(this.Creators);
+      this.addCreatorSlide();
       // this.$refs.slick.destroy();
       // this.$refs.slick.create(this.slickOptions);
       // this.$refs.slickone.reSlick();
@@ -212,10 +220,27 @@ export default {
     // });
     // this.initOwlCarousel();
   },
+  watch: {
+    // CreatorSlideActive() {
+    //   if (this.CreatorSlideActive) {
+    //     this.creatorSlideActivate();
+    //   }
+    // }
+  },
   methods: {
     getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
       console.log(this.windowWidth);
+    },
+    addCreatorSlide() {
+      let slide = {};
+      slide.id = this.Creators.length + 1;
+      slide.Title = "Want to be a featured creator?";
+      slide.Text = "Start by creating your own community";
+      slide.CustomSlide = true;
+      this.Creators.unshift(slide);
+      // console.log(slide);
+      // console.log(this.Creators);
     }
   }
 };
@@ -239,6 +264,7 @@ export default {
     font-weight: bold;
     font-size: 48px;
     line-height: 120%;
+    padding-right: 20px;
     @media screen and (max-width: 576px) {
       font-size: 36px;
       max-width: 50%;
@@ -309,7 +335,7 @@ export default {
 }
 .slick-slider {
   position: relative;
-  @media screen and (max-width: 1300px) {
+  @media screen and (max-width: 1300px) and (min-width: 577px) {
     margin: 0 -10px;
   }
 }
@@ -321,7 +347,21 @@ export default {
   line-height: 70px;
   z-index: 1;
   transition: 0.3s;
-  @media screen and (min-width: 700px) and (max-width: 1399px) {
+  position: relative;
+  &:active:not(.slick-disabled) {
+    background: lighten(#e73348, 10%);
+  }
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media screen and (max-width: 370px) {
+    height: 50px;
+    width: 50px;
+  }
+  @media screen and (min-width: 577px) and (max-width: 1460px) {
     position: absolute;
     top: 50%;
     transform: translate(-100%, -50%);
@@ -341,10 +381,10 @@ export default {
   }
 }
 .slick-prev img {
-  transform: rotate(180deg);
+  transform: translate(-50%, -50%) rotate(180deg);
 }
 .slick-next {
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: 577px) {
     left: initial;
     right: 10px;
     transform: translate(100%, -50%);
@@ -361,6 +401,9 @@ export default {
 .slick-slide {
   transition: 0.3s;
   margin: 0 10px;
+  &:focus {
+    outline: none;
+  }
   &:not(.slick-active) {
     opacity: 0.6;
   }
@@ -377,8 +420,17 @@ export default {
   margin: 0 auto;
   border-radius: var(--border-radius);
   overflow: hidden;
+  &.custom {
+    background: var(--color-red);
+  }
   @media screen and (max-width: 860px) {
     max-width: 256px;
+  }
+  &:focus {
+    outline: none;
+  }
+  &.custom :before {
+    content: none;
   }
   &:before {
     content: "";
@@ -412,6 +464,7 @@ export default {
     font-size: 30px;
     line-height: 120%;
     transition: 0.2s;
+    height: auto;
   }
   .main__slide-text {
     color: var(--color-white);
@@ -431,6 +484,15 @@ export default {
     transition: 0.3s;
     font-size: 16px;
     line-height: 130%;
+    &.custom {
+      background: var(--color-rose-light);
+      color: var(--color-red);
+      &:hover {
+        border: 1px solid var(--color-rose-light);
+        background: var(--color-red);
+        color: var(--color-rose-light);
+      }
+    }
     &:hover {
       background: transparent;
       color: var(--color-red);
@@ -450,9 +512,10 @@ export default {
   //   background-position: 220px;
   // }
 }
-.slick-active .main__slide:hover {
+.slick-active .main__slide:hover:not(.custom) {
   .main__slide-title {
     opacity: 0;
+    height: 0%;
   }
   .main__slide-text {
     max-height: 100%;
