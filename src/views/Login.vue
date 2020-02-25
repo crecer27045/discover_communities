@@ -3,7 +3,7 @@
     <div class="login__wrap">
       <div class="login__title">Log In</div>
 
-      <div class="login__form-wrap">
+      <form class="login__form-wrap">
         <div class="login__form-input-wrap">
           <input v-model="Email" type="email" placeholder="Email" />
           <!-- <span class="placehold">Email</span> -->
@@ -12,7 +12,7 @@
           <input v-model="Password" type="password" placeholder="Password" />
           <!-- <span class="placehold">Password</span> -->
         </div>
-      </div>
+      </form>
 
       <div class="login__forgot-wrap">
         <span class="text">Forgot your password?</span>
@@ -25,14 +25,41 @@
         <div class="text">Or Log In with</div>
         <div class="buttons-wrap">
           <a href="#" class="link facebook">
-            <img src="/img/svg/facebook.svg" alt />
+            <svg
+              width="11"
+              height="20"
+              viewBox="0 0 11 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.5 0V4H8.5C7.81 4 7.5 4.81 7.5 5.5V8H10.5V12H7.5V20H3.5V12H0.5V8H3.5V4C3.5 2.93913 3.92143 1.92172 4.67157 1.17157C5.42172 0.421427 6.43914 0 7.5 0H10.5Z"
+              />
+            </svg>
             <span>Facebook</span>
           </a>
           <a href="#" class="link google">
-            <img src="/img/svg/google.svg" alt />
+            <svg
+              width="21"
+              height="20"
+              viewBox="0 0 21 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.5 11V9H20.5V10C20.5 15.5228 16.0228 20 10.5 20C4.97715 20 0.5 15.5228 0.5 10C0.5 4.47715 4.97715 0 10.5 0C13.5799 0 16.4313 1.4025 18.3167 3.76259L16.7542 5.01093C15.2443 3.12095 12.9653 2 10.5 2C6.08172 2 2.5 5.58172 2.5 10C2.5 14.4183 6.08172 18 10.5 18C14.5796 18 17.946 14.9463 18.4381 11H11.5Z"
+              />
+            </svg>
             <span>Google</span>
           </a>
         </div>
+      </div>
+
+      <div class="login__create-wrap">
+        <span class="text">Don’t have an account yet?</span>
+        <a href="#" class="link">Sign Up</a>
       </div>
       <!-- <login /> -->
     </div>
@@ -166,6 +193,7 @@ export default {
   .buttons-wrap {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 40px;
     .link {
       font-size: 16px;
       text-decoration: none;
@@ -177,17 +205,31 @@ export default {
       align-items: center;
       justify-content: center;
       border-radius: var(--border-radius);
+      transition: 0.3s;
       &:first-child {
         margin-right: 20px;
       }
     }
-    img {
+    svg {
       margin-right: 10px;
+      transition: 0.3s;
     }
     .facebook {
       border: 1px solid #4968ad;
       span {
         color: #4968ad;
+      }
+      path {
+        fill: #4968ad;
+      }
+      &:hover {
+        background: #4968ad;
+        span {
+          color: var(--color-white);
+        }
+        path {
+          fill: var(--color-white);
+        }
       }
     }
     .google {
@@ -195,7 +237,28 @@ export default {
       span {
         color: var(--color-red);
       }
+      path {
+        fill: var(--color-red);
+      }
+      &:hover {
+        background: var(--color-red);
+        span {
+          color: var(--color-white);
+        }
+        path {
+          fill: var(--color-white);
+        }
+      }
     }
+  }
+}
+.login__create-wrap {
+  .text {
+    margin-right: 7px;
+    font-size: 18px;
+  }
+  .link {
+    font-size: 18px;
   }
 }
 </style>

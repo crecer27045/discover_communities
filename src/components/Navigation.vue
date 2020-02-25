@@ -30,8 +30,7 @@ export default {
   data() {
     return {
       profileActive: false,
-      windowWidth: null,
-      authStatus: this.$store.getters.IS_AUTHENTICATED
+      windowWidth: null
     };
   },
   mounted() {
@@ -41,6 +40,11 @@ export default {
       //Init
       this.getWindowWidth();
     });
+  },
+  computed: {
+    authStatus() {
+      return this.$store.getters.IS_AUTHENTICATED;
+    }
   },
   // computed: {
   //   userLogin() {
